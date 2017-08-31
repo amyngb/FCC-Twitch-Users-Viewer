@@ -11,6 +11,65 @@ html, body {
     background-color: lightgrey;
 }
 
-p {
+header {
     font-family: 'Bungee Inline';
+    text-shadow: 2px 2px #9900cc;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.twitchMenu {
+    margin: 10px 0 -5px 0;
+}
+
+.menu {
+    font-family: 'Bungee Inline'; 
+    font-size: 20px;   
+    text-align: center;
+    display: inline;
+    padding: 10px 5px;
+    border: 1px;   
+}
+
+.menu:hover {
+    background-color: #bf00ff;
+}
+
+.triangle {
+    display: inline-block; 
+    font-size: 15px; 
+    color: #bf00ff;
+}
+
+
+#tri1 {
+    padding: 0 25px 0 7px;
+}
+
+#tri2 {
+    padding: 0 34px;
+}
+
+#tri3 {
+    padding: 0 10px 0 50px;
+}
+
+#tri4 span {
+    visibility: hidden;
+}
+
+.triangle span { 
+    visibility: hidden;
+    
+}
+
+.triangle:hover span {
+    visibility: visible;
+    color: #bf00ff;   
+}
+

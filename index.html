@@ -2,25 +2,42 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>View Twitch Users</title>
+        <title>Twitch Streamers</title>
         
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.css">
-        <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Encode+Sans" rel="stylesheet">    </head>
+        <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Encode+Sans" rel="stylesheet">    
+    </head>
 
     <body>
         <div class="justify-content-center row text-center">
         
             <!-- Left sidebar -->
-            <div class="sidebar col-sm-1 col-md-2"></div>
+            <div class="sidebar col-sm-1 col-md-2 col-lg-3"></div>
 
             <!-- center content -->
-            <div class="main col-sm-10 col-md-8 justify-content-center">
-                <p>Twitch streamers</p>
+            <div class="main col-sm-10 col-md-8 col-lg-6 justify-content-center">
+               <header>
+                <h1>Twitch streamers</h1>
+               </header>
+               <ul class=" twitchMenu">
+                   <li class='menu' id="all"><a>All</a></li>
+                   <li class='menu' id="online"><a>Online</a></li>
+                   <li class='menu' id="offline"><a>Offline</a></li>
+               </ul>
+                <ul class="triUL">
+                    <li class="triangle" id="tri1"><span>&#9660;</span></li>
+                    <li class="triangle" id ="tri2"><span>&#9660;</span></li>
+                    <li class="triangle" id = "tri3"><span>&#9660;</span></li>          
+                    <li class="triangle" id="tri4"><span>&#9660;</span></li>
+                </ul>
+
+              
             </div>
 
+
             <!-- Right sidebar -->
-            <div class="sidebar col-sm-1 col-md-2"></div>
+            <div class="sidebar col-sm-1 col-md-2 col-lg-3"></div>
     
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
