@@ -1,0 +1,16 @@
+html, body {
+    height: 100%;
+    background-color: lightgrey;
+    font-family: 'Bungee Inline';
+}
+.sidebar {
+    background-color: purple;
+}
+
+.main {
+    background-color: lightgrey;
+}
+
+p {
+    font-family: 'Bungee Inline';
+}
