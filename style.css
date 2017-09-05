@@ -1,19 +1,24 @@
 html, body {
     height: 100%;
-    background-color: lightgrey;
+    background-color: white;
     font-family: 'Bungee Inline';
 }
 .sidebar {
-    background-color: purple;
+    background-color: #9900cc;
 }
 
 .main {
-    background-color: lightgrey;
+    background-color: white;
 }
 
 header {
     font-family: 'Bungee Inline';
     text-shadow: 2px 2px #9900cc;
+    margin: 30px 10px;
+}
+
+.mainMenu {
+    background-color: #E6006D;
 }
 
 ul {
@@ -37,15 +42,20 @@ ul {
 }
 
 .menu:hover {
-    background-color: #bf00ff;
+    background-color: #9900cc;
 }
 
 .triangle {
     display: inline-block; 
     font-size: 15px; 
-    color: #bf00ff;
+    color: #9900cc;
 }
 
+.triUL {
+    margin: 0 0 -15px 0;
+    z-index: 1;
+    position: relative;
+}
 
 #tri1 {
     padding: 0 25px 0 7px;
@@ -68,8 +78,42 @@ ul {
     
 }
 
-.triangle:hover span {
-    visibility: visible;
-    color: #bf00ff;   
+.inputField {
+    padding: 10px 0;
+    background-color: lightgray;
 }
+
+input {
+    font-family: Arial, FontAwesome; 
+    width: 320px;
+}
+
+.userIcon {
+    padding: 0 15px;
+}
+
+.userDeets {
+    background-color: lightgray;
+    padding: 15px;
+    margin: 0 30px; 
+}
+
+.userDeets:hover {
+    background-color: #9B00CC;
+}
+
+.userName {
+    margin: 5px 80px 0 10px;
+}
+
+.fa-check {
+    color: #93F300;
+}
+
+.fa-exclamation {
+    color: #E6006D;
+}
+
+
+
 
