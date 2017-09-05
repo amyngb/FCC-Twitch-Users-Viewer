@@ -1,21 +1,28 @@
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
     triangleDrop();
-
-    $.ajax({
-        url: 'https://api.twitch.tv/kraken/streams/freecodecamp?callback=?stream_type', 
-        jsonp: false,
-        jsonpCallback: 'logMe'
-    });
-
-    function logMe (data) {
-        console.log(data);
-    }
+    apiCall();
+    
+    
    
 
 }); 
 
 // ********** GET DATA **************
+function apiCall(){
+    $.ajax({
+        url: 'https://api.twitch.tv/kraken/streams/freecodecamp' ,
+        headers: {
+        "Client-ID": 'amyngb',
+        },
+        success: function(json){
+            console.log(json);
+        }
+    });
+        
+        
+}
+
 
 
 // ********* MODIFY UI ***********
