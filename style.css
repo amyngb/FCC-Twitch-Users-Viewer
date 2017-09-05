@@ -88,9 +88,6 @@ input {
     width: 320px;
 }
 
-.userIcon {
-    padding: 0 15px;
-}
 
 .userDeets {
     background-color: lightgray;
@@ -102,8 +99,8 @@ input {
     background-color: #9B00CC;
 }
 
-.userName {
-    margin: 5px 80px 0 10px;
+.userStreaming {
+    margin: -10px 0 0 0;
 }
 
 .fa-check {

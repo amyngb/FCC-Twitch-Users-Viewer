@@ -8,20 +8,42 @@ $(document).ready(function() {
 
 }); 
 
-// ********** GET DATA **************
+// ********** GET AND STORE DATA **************
+var twitchApi = 'https://api.twitch.tv/kraken/streams/'
+var twitchUser = ['esl_sc2', 'freecodecamp', 'sacriel', 'ninja', 'drdisrespectlive', 'andymilonakis']
+var twitchActive = [];
+var twitchInactive = [];
 function apiCall(){
-    $.ajax({
-        url: 'https://api.twitch.tv/kraken/streams/freecodecamp' ,
-        headers: {
-        "Client-ID": 'amyngb',
-        },
-        success: function(json){
-            console.log(json);
-        }
-    });
-        
-        
+    for (var i = 0; i < twitchUser.length; i++) {
+        $.ajax({
+            url: twitchApi +  twitchUser[i],
+            headers: {
+            "Client-ID": 'amyngb',
+            },
+            success: function(json){
+                //put each user into an active or inactive object
+                console.log(json);
+                if (json.stream) {
+                    var activeUser = {};
+                    activeUser.userName = json.stream.channel.display_name;
+                    activeUser.userIcon= json.stream.channel.logo;
+                    activeUser.streamLink= json.stream.channel.url;
+                    activeUser.streamDeets= json.stream.channel.game;
+                    twitchActive.push(activeUser);
+                }
+                else {
+                    var inactiveUser = {};
+                    var inactiveUserUrl = json.
+                    twitchInactive.push(inactiveUser);
+                }
+            }
+        });
+    }  
+    console.log(twitchActive, twitchInactive);     
 }
+
+
+
 
 
 
