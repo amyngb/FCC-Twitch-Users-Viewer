@@ -11,7 +11,7 @@ $(document).ready(function() {
 var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
 var channels = 'channels/';
 var stream = 'streams/';
-var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
+var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis', 'asdlfjkalksd', 'storbeck'];
 
    
 function getProfile(){
@@ -20,23 +20,20 @@ function getProfile(){
         $.getJSON(twitchApi + channels + user + '?callback=?', function (response) { 
             var user = user;
             var status = '';
-            if (response.hasOwnProperty('status')){
-                if (response.status == 404){
-                    return;
+            if (!response.hasOwnProperty('error')){
+                
+                console.log(response);
+                var logo = '';
+                var userName = '';
+                if (response.hasOwnProperty("logo")) {
+                    logo = response.logo;                
                 }
-            }
-            console.log(response);
-            var logo = '';
-            var userName = '';
-            if (response.hasOwnProperty("logo")) {
-                logo = response.logo;                
-            }
-            if (response.hasOwnProperty("display_name")) {
-                userName = response.display_name;  
-            }          
-            getStreamStatus(user);
-            buildUserDisplay(user, userName, logo);
-            
+                if (response.hasOwnProperty("display_name")) {
+                    userName = response.display_name;  
+                }          
+                getStreamStatus(user);
+                buildUserDisplay(user, userName, logo);
+            } 
         });
     });
 } 
