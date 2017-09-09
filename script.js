@@ -10,7 +10,7 @@ $(document).ready(function() {
 var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
 var channels = 'channels/';
 var stream = 'streams/';
-var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis', 'asdlfjkalksd', 'storbeck'];
+var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
 
    
 function getProfile(){
@@ -18,13 +18,11 @@ function getProfile(){
     twitchUsers.forEach(function(user){
         $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
             var display_name = '';
-            var name = '';
             var game = '';
             var logo = '';
             var url = '';
-            var user = user;
             console.log(response);
-            if (response.stream) {
+            if (response.stream !== null) {
                 var path = response.stream.channel;
                 if (path.hasOwnProperty('name')){
                     name = path.name;
@@ -41,25 +39,26 @@ function getProfile(){
                 if (path.hasOwnProperty('url')) {
                     url = path.url;
                 }
-                displayUser(display_name, name, game, logo, url);  
+                displayActiveUser(display_name, user, game, logo, url);  
+                
+            } else {
+                getInactiveDeets (user);  
                 
             }
-            
-            else {
-                getInactiveDeets (name);  
-            }
+                        
         });
     });
 }
 
-function getInactiveDeets (name ) {
-    $.$.getJSON('https://api.twitch.tv/kraken/streams/' + channel + '?client_id=9f7hqzad8a9ubdh9zh2diahxalczpm&callback=?', function(response)
-    
+function getInactiveDeets (user ) {
+    // $.getJSON('https://api.twitch.tv/kraken/' + channels + user + '?client_id=9f7hqzad8a9ubdh9zh2diahxalczpm&callback=?', function(response)
+    $.getJSON(twitchApi + channels + user + '?callback=?', function(response)
      {
         var user = user;
         var name = '';
         var logo = '';
         var url = '';
+        var display_name = '';
         console.log(response);
         if (!response.hasOwnProperty('error')){
             if (response.hasOwnProperty('name')){
@@ -75,59 +74,10 @@ function getInactiveDeets (name ) {
                 display_name = response.display_name;
             }
             
-            buildUserDisplay(user, display_name, name, logo, url);
+            displayInactiveUser(user, display_name, name, logo, url);
         } 
     });
 }
-
-
-function getStreamStatus(user){
-    $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
-        if (response.stream) {
-            var game = '';
-            var streamingStatus = '';
-            var userName = '';
-            if (response.hasOwnProperty('game')) {
-                game = response.stream.channel.game;                 
-            }
-            var streamingStatus = 'active';  
-        }
-        else {
-            streamingStatus = 'inactive';
-        }    
-         
-        displayUser(user, game, streamingStatus);  
-    });  
-}           
-       
-    
-
- 
-
-
-
-// function apiCall(){
-//     for (var i = 0; i < twitchUser.length; i++) {
-//         $.ajax({
-//             url: twitchApi + twitchUser[i],
-//             headers: {
-//             "Client-ID": 'amyngb',
-//             },
-//             success: function sortJson(json) {
-//                 // console.log(json);
-//                 if (json.stream) {
-//                     var activeUser = {};
-//                     activeUser.userName = json.stream.channel.display_name;
-//                     activeUser.userIcon= json.stream.channel.logo;
-//                     activeUser.streamLink= json.stream.channel.url;
-//                     activeUser.streamDeets= json.stream.channel.game;
-//                     twitchActive.push(activeUser);
-//                 }                   
-//             }          
-//         });    
-//     } 
-       
-// }  
 
 // ********* MODIFY UI ***********
 
@@ -155,13 +105,13 @@ function triangleDrop() {
 }
 
 
-function displayUser(display_name, name, game, logo, url) {  
-    $(".displayAfter").after('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '"</p>         </div> </div> </a> </div></div>' );
+function displayActiveUser(display_name, name, game, logo, url) {  
+    $(".displayUser").before('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '"</p>         </div> </div> </a> </div></div>' );
 
 }
 
-function buildUserDisplay (user, display_name, name, logo, url) {
-    $(".displayAfter").after('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
+function displayInactiveUser (user, display_name, name, logo, url) {
+    $(".displayUser").before('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
     
 
 }
