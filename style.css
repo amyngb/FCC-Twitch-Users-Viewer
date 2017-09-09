@@ -88,11 +88,15 @@ input {
     width: 320px;
 }
 
-
 .userDeets {
     background-color: lightgray;
     padding: 15px;
     margin: 0 30px; 
+}
+
+.userIcon {
+    height: 50px;
+    width: 50px;
 }
 
 .userDeets:hover {

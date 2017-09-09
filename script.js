@@ -47,12 +47,13 @@ function getStreamStatus(user){
                 game= response.stream.channel.game;                 
             }
             var streamingStatus = 'active';  
-            displayUser(user);
         }
         else {
             streamingStatus = 'inactive';
-        }     
-        console.log(game);   
+        }    
+         
+        console.log(game); 
+        displayUser(user, game, streamingStatus);  
     });  
 }           
        
@@ -112,10 +113,13 @@ function triangleDrop() {
 
 function buildUserDisplay (user, userName, logo) {
     //insert html 
-    $(".displayUser").append('<div class ="row justify-content-center" id="' + userName +'><div class="userDeets col-9"><div class="row"><div class="col-2"><i class="userIcon fa fa-2x fa-superpowers" aria-hidden="true"></i></div><div class="col-8"><h5 class="userName text-left">' + userName + '</h5></div><div class="col-2"><i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i></div></div></div></div>');
+    $(".displayUser").append('<div class ="row justify-content-center" id="' + userName + '"><div class="userDeets col-9"><div class="row"><div class="col-2"><img class="userIcon" aria-hidden="true" src=' + logo + '></i></div><div class="col-8"><h5 class="userName text-left">' + userName + '</h5></div><div class="col-2"><i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i></div></div></div></div>');
 
 }
-function displayUser (user) {
+function displayUser (user, game, streamingStatus) {
+    if (streamingStatus == "active") {
+        $("#" + )
+    }
     //insert html user boxes
 
     
