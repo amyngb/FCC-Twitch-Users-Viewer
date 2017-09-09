@@ -7,7 +7,6 @@ $(document).ready(function() {
 }); 
 
 // ********** GET AND STORE DATA **************
-// var twitchApi = 'https://api.twitch.tv/kraken/streams/'
 var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
 var channels = 'channels/';
 var stream = 'streams/';
@@ -16,35 +15,80 @@ var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Dr
    
 function getProfile(){
     //put each user into an object
-    twitchUsers.forEach(function(user) {
-        $.getJSON(twitchApi + channels + user + '?callback=?', function (response) { 
+    twitchUsers.forEach(function(user){
+        $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
+            var display_name = '';
+            var name = '';
+            var game = '';
+            var logo = '';
+            var url = '';
             var user = user;
-            var status = '';
-            if (!response.hasOwnProperty('error')){
-                
-                console.log(response);
-                var logo = '';
-                var userName = '';
-                if (response.hasOwnProperty("logo")) {
-                    logo = response.logo;                
+            console.log(response);
+            if (response.stream) {
+                var path = response.stream.channel;
+                if (path.hasOwnProperty('name')){
+                    name = path.name;
                 }
-                if (response.hasOwnProperty("display_name")) {
-                    userName = response.display_name;  
-                }          
-                getStreamStatus(user);
-                buildUserDisplay(user, userName, logo);
-            } 
+                if (path.hasOwnProperty('display_name')){
+                    display_name = path.display_name;
+                }
+                if (path.hasOwnProperty('logo')) {
+                    logo = path.logo;
+                }
+                if (path.hasOwnProperty('game')){
+                    game = path.game;
+                }
+                if (path.hasOwnProperty('url')) {
+                    url = path.url;
+                }
+                displayUser(display_name, name, game, logo, url);  
+                
+            }
+            
+            else {
+                getInactiveDeets (name);  
+            }
         });
     });
-} 
+}
+
+function getInactiveDeets (name ) {
+    $.$.getJSON('https://api.twitch.tv/kraken/streams/' + channel + '?client_id=9f7hqzad8a9ubdh9zh2diahxalczpm&callback=?', function(response)
+    
+     {
+        var user = user;
+        var name = '';
+        var logo = '';
+        var url = '';
+        console.log(response);
+        if (!response.hasOwnProperty('error')){
+            if (response.hasOwnProperty('name')){
+                name = response.name;
+            }
+            if (response.hasOwnProperty('logo')) {
+                logo = response.logo;
+            }
+            if (response.hasOwnProperty('url')) {
+                url = response.url;
+            }
+            if (response.hasOwnProperty('display_name')){
+                display_name = response.display_name;
+            }
+            
+            buildUserDisplay(user, display_name, name, logo, url);
+        } 
+    });
+}
+
 
 function getStreamStatus(user){
     $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
         if (response.stream) {
             var game = '';
             var streamingStatus = '';
+            var userName = '';
             if (response.hasOwnProperty('game')) {
-                game= response.stream.channel.game;                 
+                game = response.stream.channel.game;                 
             }
             var streamingStatus = 'active';  
         }
@@ -52,7 +96,6 @@ function getStreamStatus(user){
             streamingStatus = 'inactive';
         }    
          
-        console.log(game); 
         displayUser(user, game, streamingStatus);  
     });  
 }           
@@ -111,19 +154,14 @@ function triangleDrop() {
     });
 }
 
-function buildUserDisplay (user, userName, logo) {
-    //insert html 
-    $(".displayUser").append('<div class ="row justify-content-center" id="' + userName + '"><div class="userDeets col-9"><div class="row"><div class="col-2"><img class="userIcon" aria-hidden="true" src=' + logo + '></i></div><div class="col-8"><h5 class="userName text-left">' + userName + '</h5></div><div class="col-2"><i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i></div></div></div></div>');
+
+function displayUser(display_name, name, game, logo, url) {  
+    $(".displayAfter").after('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '"</p>         </div> </div> </a> </div></div>' );
 
 }
-function displayUser (user, game, streamingStatus) {
-    if (streamingStatus == "active") {
-        $("#" + )
-    }
-    //insert html user boxes
 
+function buildUserDisplay (user, display_name, name, logo, url) {
+    $(".displayAfter").after('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
     
-    //if active
-    //if inactive
 
 }

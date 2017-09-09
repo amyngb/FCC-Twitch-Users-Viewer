@@ -115,6 +115,10 @@ input {
     color: #E6006D;
 }
 
+.link-unstyled {
+    color: black;
+    text-decoration: none;
+}
 
 
 
