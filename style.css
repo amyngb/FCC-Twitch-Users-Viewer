@@ -1,14 +1,14 @@
 html, body {
-    height: 100%;
-    background-color: white;
-    font-family: 'Bungee Inline';
-}
-.sidebar {
     background-color: #9900cc;
+    font-family: 'Bungee Inline';    
 }
 
-.main {
+.container {
     background-color: white;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 50px;
+       
 }
 
 header {
@@ -115,9 +115,24 @@ input {
     color: #E6006D;
 }
 
-.link-unstyled {
+a:hover, a {
     color: black;
     text-decoration: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;  
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    margin: 0 -15px;
+    text-align: center;
+    padding-top: 15px;
+}
+
+footer:hover {
+    background-color: #9B00CC;
 }
 
 

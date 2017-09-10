@@ -3,6 +3,7 @@ $(document).ready(function() {
     
     triangleDrop();
     getProfile();
+    clickMenu();
 
 }); 
 
@@ -106,12 +107,50 @@ function triangleDrop() {
 
 
 function displayActiveUser(display_name, name, game, logo, url) {  
-    $(".displayUser").before('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '"</p>         </div> </div> </a> </div></div>' );
+    $(".displayUser").before('<div class ="row justify-content-center activeUser" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '</p> </div> </div> </a> </div></div>' );
 
 }
 
 function displayInactiveUser (user, display_name, name, logo, url) {
-    $(".displayUser").before('<div class ="row justify-content-center" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
+    $(".displayUser").before('<div class ="row justify-content-center inactiveUser" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
     
+}
 
+function clickMenu() {
+    $('#all').on('click', function(){
+        //display users
+        $('.inactiveUser').css("display", '');
+        $('.activeUser').css("display", '');
+        //menu bar styling
+        $('#all').css('background-color', '#9900cc');
+        $('#online').css('background-color', '');
+        $('#offline').css('background-color', '');
+          
+    });
+
+    $('#online').on('click', function(){
+                //display users
+
+        $('.inactiveUser').css("display", "none");
+        $('.activeUser').css("display", '');
+        
+        //menu bar styling
+
+        $('#all').css('background-color', '');
+        $('#online').css('background-color', '#9900cc');
+        $('#offline').css('background-color', '');
+    });
+
+    $('#offline').on('click', function(){
+                //display users
+
+        $('.activeUser').css("display", "none");
+        $('.inactiveUser').css("display", '');
+       
+        //menu bar styling
+
+        $('#all').css('background-color', '');
+        $('#online').css('background-color', '');
+        $('#offline').css('background-color', '#9900cc');
+    });
 }
