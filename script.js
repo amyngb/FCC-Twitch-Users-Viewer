@@ -122,9 +122,9 @@ function clickMenu() {
         $('.inactiveUser').css("display", '');
         $('.activeUser').css("display", '');
         //menu bar styling
-        $('#all').css('background-color', '#9900cc');
-        $('#online').css('background-color', '');
-        $('#offline').css('background-color', '');
+        // $('#all').css('background-color', '#9900cc');
+        // $('#online').css('background-color', '');
+        // $('#offline').css('background-color', '');
           
     });
 
@@ -136,9 +136,9 @@ function clickMenu() {
         
         //menu bar styling
 
-        $('#all').css('background-color', '');
-        $('#online').css('background-color', '#9900cc');
-        $('#offline').css('background-color', '');
+        // $('#all').css('background-color', '');
+        // $('#online').css('background-color', '#9900cc');
+        // $('#offline').css('background-color', '');
     });
 
     $('#offline').on('click', function(){
@@ -149,8 +149,8 @@ function clickMenu() {
        
         //menu bar styling
 
-        $('#all').css('background-color', '');
-        $('#online').css('background-color', '');
-        $('#offline').css('background-color', '#9900cc');
+        // $('#all').css('background-color', '');
+        // $('#online').css('background-color', '');
+        // $('#offline').css('background-color', '#9900cc');
     });
 }

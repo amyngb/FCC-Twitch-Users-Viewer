@@ -104,8 +104,12 @@ input {
 }
 
 .userStreaming {
-    margin: -10px 0 0 0;
+    margin: -20px 0 0 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    
 }
+
+
 
 .fa-check {
     color: #93F300;
@@ -129,6 +133,8 @@ footer {
     margin: 0 -15px;
     text-align: center;
     padding-top: 15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    
 }
 
 footer:hover {
