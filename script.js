@@ -1,7 +1,7 @@
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
     
-    triangleDrop();
+    // triangleDrop();
     getProfile();
     clickMenu();
 
@@ -82,30 +82,6 @@ function getInactiveDeets (user ) {
 
 // ********* MODIFY UI ***********
 
-    // Setup triangle dropdown menus
-function triangleDrop() {
-    $('#all').on('mouseenter', function(){
-        $('#tri1 span').css('visibility', 'visible');
-    });
-    $('#all').on('mouseleave', function(){
-        $('#tri1 span').css('visibility', 'hidden');
-    });
-    $('#online').on('mouseenter', function(){
-        $('#tri2 span').css('visibility', 'visible');
-    });
-    $('#online').on('mouseleave', function(){
-        $('#tri2 span').css('visibility', 'hidden');
-    });
-
-    $('#offline').on('mouseenter', function(){
-        $('#tri3 span').css('visibility', 'visible');
-    });
-    $('#offline').on('mouseleave', function(){
-        $('#tri3 span').css('visibility', 'hidden');
-    });
-}
-
-
 function displayActiveUser(display_name, name, game, logo, url) {  
     $(".displayUser").before('<div class ="row justify-content-center activeUser" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '</p> </div> </div> </a> </div></div>' );
 
@@ -121,11 +97,7 @@ function clickMenu() {
         //display users
         $('.inactiveUser').css("display", '');
         $('.activeUser').css("display", '');
-        //menu bar styling
-        // $('#all').css('background-color', '#9900cc');
-        // $('#online').css('background-color', '');
-        // $('#offline').css('background-color', '');
-          
+             
     });
 
     $('#online').on('click', function(){
@@ -134,11 +106,6 @@ function clickMenu() {
         $('.inactiveUser').css("display", "none");
         $('.activeUser').css("display", '');
         
-        //menu bar styling
-
-        // $('#all').css('background-color', '');
-        // $('#online').css('background-color', '#9900cc');
-        // $('#offline').css('background-color', '');
     });
 
     $('#offline').on('click', function(){
@@ -147,10 +114,5 @@ function clickMenu() {
         $('.activeUser').css("display", "none");
         $('.inactiveUser').css("display", '');
        
-        //menu bar styling
-
-        // $('#all').css('background-color', '');
-        // $('#online').css('background-color', '');
-        // $('#offline').css('background-color', '#9900cc');
     });
 }

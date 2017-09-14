@@ -17,65 +17,44 @@ header {
     margin: 30px 10px;
 }
 
-.mainMenu {
-    background-color: #E6006D;
+.nav {
+    background: #E6006D;    
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    
-}
-
-.twitchMenu {
-    margin: 10px 0 -5px 0;
-}
-
-.menu {
-    font-family: 'Bungee Inline'; 
+.menu{
+    position: relative;
+    background: #E6006D;
     font-size: 20px;   
     text-align: center;
     display: inline;
     padding: 10px 5px;
-    border: 1px;   
+    border: 1px; 
+    transition: font-size .5s;
 }
 
-.menu:hover {
-    background-color: #9900cc;
-}
-
-.triangle {
-    display: inline-block; 
-    font-size: 15px; 
-    color: #9900cc;
-}
-
-.triUL {
-    margin: 0 0 -15px 0;
-    z-index: 1;
-    position: relative;
-}
-
-#tri1 {
-    padding: 0 25px 0 7px;
-}
-
-#tri2 {
-    padding: 0 34px;
-}
-
-#tri3 {
-    padding: 0 10px 0 50px;
-}
-
-#tri4 span {
-    visibility: hidden;
-}
-
-.triangle span { 
-    visibility: hidden;
+.menu::before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0; 
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0;
+    background: transparent;
+    z-index: -1;
     
+}
+
+.menu:hover{
+    background: #9900cc;
+    font-size: 22px;
+}
+
+.menu:hover::before{
+    border-top: 10px solid #9900cc;
 }
 
 .inputField {
@@ -109,8 +88,6 @@ input {
     
 }
 
-
-
 .fa-check {
     color: #93F300;
 }
@@ -125,21 +102,25 @@ a:hover, a {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;  
-    height: 50px;
-    width: 100%;
-    background-color: white;
-    margin: 0 -15px;
-    text-align: center;
     padding-top: 15px;
     font-family: 'Source Sans Pro', sans-serif;
-    
+    margin-bottom: -25px;  
 }
 
-footer:hover {
+.amy {
+    margin-bottom: -3px;
+}
+
+.clickMe {
+    padding: 10px;
+}
+
+.clickMe:hover {
     background-color: #9B00CC;
 }
 
+.iconLinks{
+    display: inline-block;
+}
 
 

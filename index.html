@@ -17,33 +17,26 @@
         <div class="row text-center justify-content-center">
 
             <!-- center content -->
-            <div class=" col-sm-10 col-md-8 col-lg-6 ">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 ">
                 <header>
                     <h1>Twitch streamers</h1>
                 </header>
+
                 <!-- Navbar  -->
                 <div class="row justify-content-center">
-                    <div class="mainMenu col-9">
-                        <ul class=" twitchMenu">
-                        <li class='menu' id="all"><a>All</a></li>
-                        <li class='menu' id="online"><a>Online</a></li>
-                        <li class='menu' id="offline"><a>Offline</a></li>
-                        </ul>
-                        <ul class="triUL">
-                            <li class="triangle" id="tri1"><span>&#9660;</span></li>
-                            <li class="triangle" id ="tri2"><span>&#9660;</span></li>
-                            <li class="triangle" id = "tri3"><span>&#9660;</span></li>          
-                            <li class="triangle" id="tri4"><span>&#9660;</span></li>
-                        </ul>
+                    <div class='nav col-9'>
+                        <div class="menu col-3" id='all'>All</div>
+                        <div class ="menu col-4" id = 'online'>Online</div>
+                        <div class="menu col-5" id='offline'>Offline</div>
                     </div>
                 </div>
 
                 <!-- Twitch users -->
-                <!-- <div class= "row justify-content-center">
+                <div class= "row justify-content-center">
                     <div class="col-9 inputField">
                          <input type="text" class="fa fa-2x" placeholder="&#xF002;" >
                     </div>
-                </div> -->
+                </div>
 
                 <div class = "displayUser"></div>
 
@@ -86,12 +79,17 @@
                     </a>
                     </div>
                 </div>  -->
-              
+                <footer>
+                        <p class='amy'>Amy Bedinghaus</p>
+                        <div class='iconLinks w-100'>
+                             <a href="https://github.com/amyngb" target='_blank'> <i class='fa fa-github clickMe'></i></a>
+                             <a href="https://www.linkedin.com/in/amyngbedinghaus/"><i class='fa fa-linkedin clickMe'></i></a>
+                             <a href="https://twitter.com/agodhaus"><i class='fa fa-twitter clickMe'></i></a>
+                         </div>
+                     </footer>
             </div>
         </div>
-            <footer>
-                Created by: <span class="link-unstyled"><a href = "https://github.com/amyngb" target = "_blank"> Amy Bedinghaus </a></span>
-            </footer>
+           
         
     </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
