@@ -35,7 +35,7 @@ function getProfile(){
                     logo = path.logo;
                 }
                 if (path.hasOwnProperty('game')){
-                    game = path.game;
+                    game = titleCase(path.game);
                 }
                 if (path.hasOwnProperty('url')) {
                     url = path.url;
@@ -116,3 +116,14 @@ function clickMenu() {
        
     });
 }
+
+function titleCase(str) {
+    
+    str = str.toLowerCase().split(' ');
+   
+    str = str.map(function (word) {
+      return word.replace(word[0], word[0].toUpperCase());
+    });
+     
+    return str.join(" ");
+  }

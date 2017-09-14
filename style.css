@@ -64,7 +64,7 @@ header {
 
 input {
     font-family: Arial, FontAwesome; 
-    width: 320px;
+    width: 95%;
 }
 
 .userDeets {
@@ -73,9 +73,21 @@ input {
     margin: 0 30px; 
 }
 
+@media only screen and (max-width: 500px) {
+    .userIcon {
+        padding: 5px;
+    }
+    .userName {
+        font-size: 18px;
+    }
+}
 .userIcon {
     height: 50px;
     width: 50px;
+}
+
+.userName {
+    padding-top: 15px;
 }
 
 .userDeets:hover {
@@ -90,10 +102,13 @@ input {
 
 .fa-check {
     color: #93F300;
+    padding-top: 10px;
+    margin-left: -10px;
 }
 
 .fa-exclamation {
     color: #E6006D;
+    padding-top: 10px;
 }
 
 a:hover, a {
