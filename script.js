@@ -10,18 +10,17 @@ if(window.__env) {
   Object.assign(env, window.__env);
 }
 
-// ********** DOCUMENT READY *************
-$(document).ready(function() {
-   
-    console.log(env.clientSecret);
-
-
- // ********** GET AND STORE DATA **************
+// ********** GET AND STORE DATA **************
 // var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
 var twitchApi = 'https://api.twitch.tv/helix/users';
 var channels = 'channels/';
 var stream = 'streams/';
 var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
+
+// ********** DOCUMENT READY *************
+$(document).ready(function() {
+   
+    console.log(env.clientSecret);
    
     getToken();
 
@@ -39,16 +38,16 @@ function getToken () {
         }
     })
 }
- 
-
-
-
    
 function getProfile(){
     //put each user into an object
     twitchUsers.forEach(function(user){
        // $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
-           $.getJSON(twitchApi + stream + user + '?client_id=' + clientId + '&callback=?', function (response) {
+           $.ajax({
+               type: "GET",
+               url: twitchApi,
+               headers: "Authorization: OAuth "
+               , function (response) {
             var display_name = '';
             var game = '';
             var logo = '';
