@@ -1,23 +1,54 @@
+/********Protect keys********/
+//SET ENV Variable so it exists even if a person doesn't include their credentials.
+
+var env = {
+    clientSecret:'',
+    clientId: ''
+};
+// NOW  Import variables if present (from env.js)
+if(window.__env) {
+  Object.assign(env, window.__env);
+}
+
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
-    
-    // triangleDrop();
-    getProfile();
-    clickMenu();
+   
+    console.log(env.clientSecret);
 
-}); 
 
-// ********** GET AND STORE DATA **************
-var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
+ // ********** GET AND STORE DATA **************
+// var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
+var twitchApi = 'https://api.twitch.tv/helix/users';
 var channels = 'channels/';
 var stream = 'streams/';
 var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
+   
+    getToken();
+
+}); 
+
+function getToken () {
+    $.ajax({
+        type: "POST",
+        url: 'https://api.twitch.tv/kraken/oauth2/token?client_id=' + env.clientId + '&client_secret=' + env.clientSecret + '&grant_type=client_credentials',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            getProfile();
+            clickMenu();
+        }
+    })
+}
+ 
+
+
 
    
 function getProfile(){
     //put each user into an object
     twitchUsers.forEach(function(user){
-        $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
+       // $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
+           $.getJSON(twitchApi + stream + user + '?client_id=' + clientId + '&callback=?', function (response) {
             var display_name = '';
             var game = '';
             var logo = '';
@@ -52,8 +83,8 @@ function getProfile(){
 }
 
 function getInactiveDeets (user ) {
-    // $.getJSON('https://api.twitch.tv/kraken/' + channels + user + '?client_id=9f7hqzad8a9ubdh9zh2diahxalczpm&callback=?', function(response)
-    $.getJSON(twitchApi + channels + user + '?callback=?', function(response)
+    $.getJSON('https://api.twitch.tv/kraken/' + channels + user + '?client_id=' + clientId + '&callback=?', function(response)
+    // $.getJSON(twitchApi + channels + user + '?callback=?', function(response)
      {
         var user = user;
         var name = '';
@@ -83,12 +114,12 @@ function getInactiveDeets (user ) {
 // ********* MODIFY UI ***********
 
 function displayActiveUser(display_name, name, game, logo, url) {  
-    $(".displayUser").before('<div class ="row justify-content-center activeUser" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '</p> </div> </div> </a> </div></div>' );
+    $(".displayUser").before('<div class ="row justify-content-center activeUser" id = "' + name + '"><div class="userDeets col-11 col-md-9"><a class="link-unstyled" href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-check" aria-hidden="true"></i> </div>        </div> <div class="row"> <div class="col-2"></div> <div class="col-10">                 <p class="userStreaming text-left">' + game + '</p> </div> </div> </a> </div></div>' );
 
 }
 
 function displayInactiveUser (user, display_name, name, logo, url) {
-    $(".displayUser").before('<div class ="row justify-content-center inactiveUser" id = "' + name + '"><div class="userDeets col-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
+    $(".displayUser").before('<div class ="row justify-content-center inactiveUser" id = "' + name + '"><div class="userDeets col-11 col-md-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
     
 }
 
