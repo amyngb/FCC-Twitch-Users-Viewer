@@ -12,11 +12,11 @@ if(window.__env) {
 
 // ********** GET AND STORE DATA **************
 // var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
-var twitchApi = 'https://api.twitch.tv/helix/users';
+var twitchApi = 'https://api.twitch.tv/helix/';
 var channels = 'channels/';
 var stream = 'streams/';
 var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
-
+var access_token = ''; 
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
    
@@ -29,39 +29,44 @@ $(document).ready(function() {
 function getToken () {
     $.ajax({
         type: "POST",
-        url: 'https://api.twitch.tv/kraken/oauth2/token?client_id=' + env.clientId + '&client_secret=' + env.clientSecret + '&grant_type=client_credentials',
+        url: 'https://api.twitch.tv/kraken/oauth2/token?client_id=' + env.clientId 
+        + '&client_secret=' + env.clientSecret 
+        + '&grant_type=client_credentials',
         dataType: 'json',
         success: function (response) {
             console.log(response);
-            getProfile();
+            access_token = response.access_token;
+            getProfile(access_token);
             clickMenu();
         }
     })
 }
    
-function getProfile(){
+function getProfile(access_token){
     //put each user into an object
     twitchUsers.forEach(function(user){
-       // $.getJSON(twitchApi + stream + user + '?callback=?', function(response){
+    //    $.getJSON('https://api.twitch.tv/helix/users?login=' + user + "&client_id=" + env.clientId + "&access_token=" + access_token + "&callback=", function(response){
            $.ajax({
                type: "GET",
-               url: twitchApi,
-               headers: "Authorization: OAuth "
-               , function (response) {
+               url: "https://api.twitch.tv/helix/users?login=" + user, 
+               dataType: 'json',
+               beforeSend: function (xhr) {
+                   xhr.setRequestHeader('Client-ID', env.clientId);
+                   xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+               },
+               success: function (response) {
             var display_name = '';
             var game = '';
             var logo = '';
             var url = '';
             console.log(response);
-            if (response.stream !== null) {
-                var path = response.stream.channel;
-                if (path.hasOwnProperty('name')){
+            if (response.data[0] !== null) {
+                var path = response.data[0];
+                if (path.hasOwnProperty('login')){
                     name = path.name;
-                }
-                if (path.hasOwnProperty('display_name')){
                     display_name = path.display_name;
                 }
-                if (path.hasOwnProperty('logo')) {
+                if (path.hasOwnProperty('profile_image_url')) {
                     logo = path.logo;
                 }
                 if (path.hasOwnProperty('game')){
@@ -70,16 +75,19 @@ function getProfile(){
                 if (path.hasOwnProperty('url')) {
                     url = path.url;
                 }
-                displayActiveUser(display_name, user, game, logo, url);  
+                //displayActiveUser(display_name, user, game, logo, url);  
                 
-            } else {
-                getInactiveDeets (user);  
+            } 
+            //else {
+            //     getInactiveDeets (user);  
                 
-            }
+            // }
                         
-        });
+        }
     });
+})
 }
+
 
 function getInactiveDeets (user ) {
     $.getJSON('https://api.twitch.tv/kraken/' + channels + user + '?client_id=' + clientId + '&callback=?', function(response)
