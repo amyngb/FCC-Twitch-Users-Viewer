@@ -3,7 +3,8 @@
 
 var env = {
     clientSecret:'',
-    clientId: ''
+    clientId: '',
+    giantBombKey: ''
 };
 // NOW  Import variables if present (from env.js)
 if(window.__env) {
@@ -15,8 +16,11 @@ if(window.__env) {
 var twitchApi = 'https://api.twitch.tv/helix/';
 var channels = 'channels/';
 var stream = 'streams/';
-var twitchUsers = ['ESL_SC2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
+var twitchUsers = ['esl_sc2', '30220059', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
 var access_token = ''; 
+var giantBombId = '';
+
+
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
    
@@ -45,7 +49,6 @@ function getToken () {
 function getProfile(access_token){
     //put each user into an object
     twitchUsers.forEach(function(user){
-    //    $.getJSON('https://api.twitch.tv/helix/users?login=' + user + "&client_id=" + env.clientId + "&access_token=" + access_token + "&callback=", function(response){
            $.ajax({
                type: "GET",
                url: "https://api.twitch.tv/helix/users?login=" + user, 
@@ -55,7 +58,19 @@ function getProfile(access_token){
                    xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
                },
                success: function (response) {
-            var display_name = '';
+                console.log(response);
+                
+                //to get game name from game id, must make another api call
+                giantBombId = response.data;
+                //https://www.giantbomb.com/api/
+            
+            
+            
+            
+            
+            
+            //need to change these to reflect new API labels
+                var display_name = '';
             var game = '';
             var logo = '';
             var url = '';
