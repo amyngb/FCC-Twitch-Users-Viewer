@@ -60,7 +60,8 @@ function getProfile(access_token){
                success: function (response) {
                 console.log(response);
                 
-                //to get game name from game id, must make another api call
+                //to get game name from game id, must make another api call per the below discussion
+                //https://discuss.dev.twitch.tv/t/no-way-to-get-the-name-s-of-a-game-from-its-id/6902
                 giantBombId = response.data;
                 //https://www.giantbomb.com/api/
             
