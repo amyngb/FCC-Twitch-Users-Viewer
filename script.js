@@ -4,7 +4,7 @@
 var env = {
     clientSecret:'',
     clientId: '',
-    giantBombKey: ''
+    game_id: ''
 };
 // NOW  Import variables if present (from env.js)
 if(window.__env) {
@@ -13,7 +13,8 @@ if(window.__env) {
 
 // ********** GET AND STORE DATA **************
 // var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
-var twitchApi = 'https://api.twitch.tv/helix/';
+var streams_url = "https://api.twitch.tv/helix/streams?user_id=";
+var games_url = 'https://api.twitch.tv/helix/games?id='
 var channels = 'channels/';
 var stream = 'streams/';
 var twitchUsers = ['esl_sc2', '30220059', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
@@ -30,6 +31,7 @@ $(document).ready(function() {
 
 }); 
 
+//*****Get Access Token*****
 function getToken () {
     $.ajax({
         type: "POST",
@@ -45,43 +47,53 @@ function getToken () {
         }
     })
 }
-   
+
+//*****Get User Stream and Game data*****
+
 function getProfile(access_token){
     //put each user into an object
     twitchUsers.forEach(function(user){
-           $.ajax({
-               type: "GET",
-               url: "https://api.twitch.tv/helix/users?login=" + user, 
-               dataType: 'json',
-               beforeSend: function (xhr) {
-                   xhr.setRequestHeader('Client-ID', env.clientId);
-                   xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-               },
-               success: function (response) {
-                console.log(response);
+        $.ajax({
+            type: "GET",
+            url: streams_url + user, 
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Client-ID', env.clientId);
+                xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+            },
+            success: function (response) {
+                if (response.data.length !== 0) {
                 
-                //to get game name from game id, must make another api call per the below discussion
-                //https://discuss.dev.twitch.tv/t/no-way-to-get-the-name-s-of-a-game-from-its-id/6902
-                giantBombId = response.data;
-                //https://www.giantbomb.com/api/
-            
-            
-            
-            
-            
-            
-            //need to change these to reflect new API labels
-                var display_name = '';
+                    
+                    console.log(response);
+                    
+                    game_id = response.data[0].game_id;
+                    
+                    //get game name from id
+                    function getGame (game_id) {
+                        $.ajax({
+                            type: "GET",
+                            url: games_url + "490422", //game_id
+                            dataType: 'json',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Client-ID', env.clientId);
+                                xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                            },
+                            success: function (response) {
+                                console.log(response);
+                            }
+                        })
+                    }
+                    getGame(game_id);
+                }
+                
+             //Update UI
+            var display_name = user;
             var game = '';
             var logo = '';
             var url = '';
-            console.log(response);
-            if (response.data[0] !== null) {
+            if (response.data.length !== 0) {
                 var path = response.data[0];
-                if (path.hasOwnProperty('login')){
-                    name = path.name;
-                    display_name = path.display_name;
-                }
                 if (path.hasOwnProperty('profile_image_url')) {
                     logo = path.logo;
                 }
