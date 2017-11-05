@@ -1,0 +1,2 @@
+# FCC-Twitch-Users-Viewer
+This project lets you see if a Twitch user is currently streaming, and if so, see more details about what they are streaming. You can also click and go to their Twitch page. This project is currently under construction as I await the new Twitch API to be complete. A complete version of this project using the v5 API can be found here at my CodePen: https://codepen.io/amyngb/pen/dzxzPq
