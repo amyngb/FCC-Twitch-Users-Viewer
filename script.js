@@ -15,17 +15,19 @@ if(window.__env) {
 // var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
 var streams_url = "https://api.twitch.tv/helix/streams?user_id=";
 var games_url = 'https://api.twitch.tv/helix/games?id='
-var channels = 'channels/';
-var stream = 'streams/';
-var twitchUsers = ['esl_sc2', '30220059', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
+var user_url = 'https://api.twitch.tv/helix/users?login='
+var twitchUsers = ['esl_sc2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
 var access_token = ''; 
-var giantBombId = '';
+var display_name = '';
+var game = '';
+var logo = '';
+var url = '';
+var path;
+
 
 
 // ********** DOCUMENT READY *************
 $(document).ready(function() {
-   
-    console.log(env.clientSecret);
    
     getToken();
 
@@ -40,7 +42,6 @@ function getToken () {
         + '&grant_type=client_credentials',
         dataType: 'json',
         success: function (response) {
-            console.log(response);
             access_token = response.access_token;
             getProfile(access_token);
             clickMenu();
@@ -48,103 +49,98 @@ function getToken () {
     })
 }
 
-//*****Get User Stream and Game data*****
+//*****Get User Stream and Game data****
+//Try to get all users at once...? seems too complicated since you can't see offline users and streams in same call
+// function getProfile(access_token){
+//     $.ajax({
+//         type: "GET",
+//         url: streams_url + "esl_sc2&user_id=thijshs&user_id=Freecodecamp&user_id=Sacriel&user_id=Ninja&user_id=Drdisrespectlive&user_id=Andymilonakis",
+//         dataType: "json",
+//         beforeSend: function (xhr) {
+//             xhr.setRequestHeader('Client-ID', env.clientId);
+//             xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+//         },
+//         success: function (response) {
+//             console.log(response);
+//         }
+//     })
+// }
 
 function getProfile(access_token){
-    //put each user into an object
+    //for each user
     twitchUsers.forEach(function(user){
+        //get user info for online AND offline
         $.ajax({
             type: "GET",
-            url: streams_url + user, 
+            url: user_url + user, 
             dataType: 'json',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Client-ID', env.clientId);
                 xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
             },
             success: function (response) {
-                if (response.data.length !== 0) {
+                console.log(response);
+                path = response.data[0];                                               
+                url = "https://www.twitch.tv/" + user;
+                if (path.hasOwnProperty('display_name')) {
+                    display_name = path.display_name;                             
+                }
+                if (path.hasOwnProperty("profile_image_url")){
+                    logo = path.profile_image_url;                                
+                }  
                 
-                    
-                    console.log(response);
-                    
-                    game_id = response.data[0].game_id;
-                    
-                    //get game name from id
-                    function getGame (game_id) {
-                        $.ajax({
-                            type: "GET",
-                            url: games_url + "490422", //game_id
-                            dataType: 'json',
-                            beforeSend: function (xhr) {
-                                xhr.setRequestHeader('Client-ID', env.clientId);
-                                xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-                            },
-                            success: function (response) {
-                                console.log(response);
-                            }
-                        })
+                //get game info for streaming only
+                $.ajax({
+                    type: "GET",
+                    url: streams_url + user, 
+                    dataType: 'json',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Client-ID', env.clientId);
+                        xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                    },
+                    success: function (response) {
+                        //if user is streaming, get game 
+                        console.log(response);
+                        if (response.data.length !== 0) {
+                            path = response.data[0];                                 
+                            console.log("GAME ACCESS" + response);
+                            if (path.hasOwnProperty("game_id")){
+                                game_id = path.game_id;                        
+                            } 
+                            //get game name from id       
+                            $.ajax({
+                                type: "GET",
+                                url: games_url + game_id,
+                                dataType: 'json',
+                                beforeSend: function (xhr) {
+                                    xhr.setRequestHeader('Client-ID', env.clientId);
+                                    xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    path = response.data[0];                            
+                                    if (path.hasOwnProperty("name")){
+                                        game = path.name;                                
+                                    }
+                                    displayActiveUser(display_name, user, game, logo, url);
+                                }
+                            })
+                            
+                        } else {
+                           //***Update UI */
+                            displayInactiveUser (display_name, name, logo, url);  
+                
+                        }
                     }
-                    getGame(game_id);
-                }
+                }) //end ajax   
+              
+            }
+        }) //end ajax
+    }) //end forEach
+} //end getProfile
                 
-             //Update UI
-            var display_name = user;
-            var game = '';
-            var logo = '';
-            var url = '';
-            if (response.data.length !== 0) {
-                var path = response.data[0];
-                if (path.hasOwnProperty('profile_image_url')) {
-                    logo = path.logo;
-                }
-                if (path.hasOwnProperty('game')){
-                    game = titleCase(path.game);
-                }
-                if (path.hasOwnProperty('url')) {
-                    url = path.url;
-                }
-                //displayActiveUser(display_name, user, game, logo, url);  
-                
-            } 
-            //else {
-            //     getInactiveDeets (user);  
-                
-            // }
-                        
-        }
-    });
-})
-}
-
-
-function getInactiveDeets (user ) {
-    $.getJSON('https://api.twitch.tv/kraken/' + channels + user + '?client_id=' + clientId + '&callback=?', function(response)
-    // $.getJSON(twitchApi + channels + user + '?callback=?', function(response)
-     {
-        var user = user;
-        var name = '';
-        var logo = '';
-        var url = '';
-        var display_name = '';
-        console.log(response);
-        if (!response.hasOwnProperty('error')){
-            if (response.hasOwnProperty('name')){
-                name = response.name;
-            }
-            if (response.hasOwnProperty('logo')) {
-                logo = response.logo;
-            }
-            if (response.hasOwnProperty('url')) {
-                url = response.url;
-            }
-            if (response.hasOwnProperty('display_name')){
-                display_name = response.display_name;
-            }
+             
             
-            displayInactiveUser(user, display_name, name, logo, url);
-        } 
-    });
-}
 
 // ********* MODIFY UI ***********
 
@@ -153,7 +149,7 @@ function displayActiveUser(display_name, name, game, logo, url) {
 
 }
 
-function displayInactiveUser (user, display_name, name, logo, url) {
+function displayInactiveUser (display_name, name, logo, url) {
     $(".displayUser").before('<div class ="row justify-content-center inactiveUser" id = "' + name + '"><div class="userDeets col-11 col-md-9"><a class="link-unstyled"href="'+ url + '" target = "_blank"><div class ="row"><div class="col-2"> <img class="userIcon" src = "' + logo + '"> </div> <div class="col-8"> <h5 class="userName text-left">' + display_name + '</h5> </div>  <div class="col-2"> <i class="userStatus fa fa-2x fa-exclamation" aria-hidden="true"></i> </div> </div> </div> </a> </div>' );
     
 }
@@ -162,34 +158,29 @@ function clickMenu() {
     $('#all').on('click', function(){
         //display users
         $('.inactiveUser').css("display", '');
-        $('.activeUser').css("display", '');
-             
+        $('.activeUser').css("display", '');        
     });
 
     $('#online').on('click', function(){
-                //display users
-
+        //display users
         $('.inactiveUser').css("display", "none");
-        $('.activeUser').css("display", '');
-        
+        $('.activeUser').css("display", '');    
     });
 
     $('#offline').on('click', function(){
-                //display users
-
+        //display users
         $('.activeUser').css("display", "none");
-        $('.inactiveUser').css("display", '');
-       
+        $('.inactiveUser').css("display", '');      
     });
 }
 
-function titleCase(str) {
+// function titleCase(str) {
     
-    str = str.toLowerCase().split(' ');
+//     str = str.toLowerCase().split(' ');
    
-    str = str.map(function (word) {
-      return word.replace(word[0], word[0].toUpperCase());
-    });
+//     str = str.map(function (word) {
+//       return word.replace(word[0], word[0].toUpperCase());
+//     });
      
-    return str.join(" ");
-  }
+//     return str.join(" ");
+//   }
