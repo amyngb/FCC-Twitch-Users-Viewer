@@ -13,17 +13,10 @@ if(window.__env) {
 
 // ********** GET AND STORE DATA **************
 // var twitchApi = 'https://wind-bow.gomix.me/twitch-api/';
-var streams_url = "https://api.twitch.tv/helix/streams?user_id=";
+var streams_url = "https://api.twitch.tv/helix/streams?user_login=";
 var games_url = 'https://api.twitch.tv/helix/games?id='
 var user_url = 'https://api.twitch.tv/helix/users?login='
 var twitchUsers = ['esl_sc2', 'thijshs', 'Freecodecamp', 'Sacriel', 'Ninja', 'Drdisrespectlive', 'Andymilonakis'];
-var access_token = ''; 
-var display_name = '';
-var game = '';
-var logo = '';
-var url = '';
-var path;
-
 
 
 // ********** DOCUMENT READY *************
@@ -49,98 +42,94 @@ function getToken () {
     })
 }
 
-//*****Get User Stream and Game data****
-//Try to get all users at once...? seems too complicated since you can't see offline users and streams in same call
-// function getProfile(access_token){
-//     $.ajax({
-//         type: "GET",
-//         url: streams_url + "esl_sc2&user_id=thijshs&user_id=Freecodecamp&user_id=Sacriel&user_id=Ninja&user_id=Drdisrespectlive&user_id=Andymilonakis",
-//         dataType: "json",
-//         beforeSend: function (xhr) {
-//             xhr.setRequestHeader('Client-ID', env.clientId);
-//             xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-//         },
-//         success: function (response) {
-//             console.log(response);
-//         }
-//     })
-// }
-
 function getProfile(access_token){
     //for each user
     twitchUsers.forEach(function(user){
         //get user info for online AND offline
-        $.ajax({
-            type: "GET",
-            url: user_url + user, 
-            dataType: 'json',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Client-ID', env.clientId);
-                xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-            },
-            success: function (response) {
-                console.log(response);
-                path = response.data[0];                                               
-                url = "https://www.twitch.tv/" + user;
-                if (path.hasOwnProperty('display_name')) {
-                    display_name = path.display_name;                             
-                }
-                if (path.hasOwnProperty("profile_image_url")){
-                    logo = path.profile_image_url;                                
-                }  
-                
-                //get game info for streaming only
-                $.ajax({
-                    type: "GET",
-                    url: streams_url + user, 
-                    dataType: 'json',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Client-ID', env.clientId);
-                        xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-                    },
-                    success: function (response) {
-                        //if user is streaming, get game 
-                        console.log(response);
-                        if (response.data.length !== 0) {
-                            path = response.data[0];                                 
-                            console.log("GAME ACCESS" + response);
-                            if (path.hasOwnProperty("game_id")){
-                                game_id = path.game_id;                        
-                            } 
-                            //get game name from id       
-                            $.ajax({
-                                type: "GET",
-                                url: games_url + game_id,
-                                dataType: 'json',
-                                beforeSend: function (xhr) {
-                                    xhr.setRequestHeader('Client-ID', env.clientId);
-                                    xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
-                                },
-                                success: function (response) {
-                                    console.log(response);
-                                    path = response.data[0];                            
-                                    if (path.hasOwnProperty("name")){
-                                        game = path.name;                                
-                                    }
-                                    displayActiveUser(display_name, user, game, logo, url);
-                                }
-                            })
-                            
-                        } else {
-                           //***Update UI */
-                            displayInactiveUser (display_name, name, logo, url);  
-                
-                        }
+        setTimeout(function() {
+            var access_token = ''; 
+            var display_name = '';
+            var game = '';
+            var logo = '';
+            var url = '';
+            var path;
+            
+            //get user info
+            $.ajax({
+                type: "GET",
+                url: user_url + user, 
+                dataType: 'json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Client-ID', env.clientId);
+                    xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                },
+                success: function (response) {
+                    path = response.data[0];                                               
+                    url = "https://www.twitch.tv/" + user;
+                    if (path.hasOwnProperty('display_name')) {
+                        display_name = path.display_name;  
                     }
-                }) //end ajax   
-              
-            }
-        }) //end ajax
+                    if (path.hasOwnProperty("profile_image_url")){
+                        logo = path.profile_image_url;                                
+                    }  
+                    
+                    //get game info for streaming only
+                    $.ajax({
+                        type: "GET",
+                        url: streams_url + user, 
+                        dataType: 'json',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('Client-ID', env.clientId);
+                            xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                        },
+                        success: function (response) {
+                            //if user is streaming, get game
+                            if (response.data.length !== 0) {
+                                path = response.data[0];                                 
+                                if (path.hasOwnProperty("game_id")){
+                                    game_id = path.game_id;  
+                                } 
+                                //get game name from id       
+                                $.ajax({
+                                    type: "GET",
+                                    url: games_url + game_id,
+                                    dataType: 'json',
+                                    beforeSend: function (xhr) {
+                                        xhr.setRequestHeader('Client-ID', env.clientId);
+                                        xhr.setRequestHeader('Authorization', 'Oauth' + access_token);
+                                    },
+                                    success: function (response) {
+                                         path = response.data[0];                            
+                                        if (path.hasOwnProperty("name")){
+                                            game = path.name;                                
+                                        }
+                                        display_name = user;
+
+                                        //*** Update Active UI ***//
+ 
+                                        displayActiveUser(display_name, user, game, logo, url);
+                                    }
+                                })
+                                
+                            } else {
+                            //*** Update Inactive UI ***//
+                            
+                                displayInactiveUser (display_name, name, logo, url);  
+                    
+                            } 
+                        } //end success
+                    }) //end ajax   
+                } //end success
+            }) //end ajax
+        }, 3000) //end timeout
     }) //end forEach
 } //end getProfile
                 
              
-            
+ 
+function getUser () {
+
+}
 
 // ********* MODIFY UI ***********
 
